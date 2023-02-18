@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Rainworld": {
+      "commandName": "Executable",
+      "executablePath": "..\\Rain World Modded\\RainWorld.exe",
+      "workingDirectory": "..\\Rain World Modded"
+    }
+  }
+}
