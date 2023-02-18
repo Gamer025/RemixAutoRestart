@@ -29,18 +29,6 @@ public class RemixAutoRestart : BaseUnityPlugin
         {
             var process = Process.GetCurrentProcess();
             string fullPath = $"\"{process.MainModule.FileName}\"";
-            //string launcherPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..") + Path.DirectorySeparatorChar + "LaunchHelper.exe";
-
-            //Logger.LogInfo($"RW exe: {fullPath}, Launcher exe: {launcherPath}");
-
-            //ProcessStartInfo psi = new ProcessStartInfo()
-            //{
-            //    FileName = launcherPath,
-            //    Arguments = fullPath,
-            //    CreateNoWindow = true,
-            //    UseShellExecute = false
-            //};
-            //Process.Start(psi);
 
             var s_SavedEnv = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
             List<string> itemsToRemove = new List<string>();
