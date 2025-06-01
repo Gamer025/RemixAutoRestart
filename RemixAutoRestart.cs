@@ -2,22 +2,18 @@
 using System.Diagnostics;
 using System;
 using System.Security.Permissions;
-using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Reflection;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 namespace RemixAutoRestart;
 
-[BepInPlugin(MOD_ID, "Remix Auto Restarter", "1.0.0")]
+[BepInPlugin(MOD_ID, "Remix Auto Restarter", "1.1.0")]
 public class RemixAutoRestart : BaseUnityPlugin
 {
     public const string MOD_ID = "Gamer025.RemixAutoRestart";
-   
+
     public void OnEnable()
     {
         On.Menu.ModdingMenu.Singal += ModdingMenu_Singal;
@@ -51,6 +47,27 @@ public class RemixAutoRestart : BaseUnityPlugin
             }
             psi.UseShellExecute = false;
             psi.FileName = fullPath;
+
+            //Command line args
+            List<string> new_args = new List<string>();
+            string[] current_args = Environment.GetCommandLineArgs();
+            for (int i = 0; i < current_args.Length; i++)
+            {
+                //Skip the first elements because that is the process file itself
+                if (i == 0)
+                    continue;
+
+                //Something (Doorstop?) is adding a logFile arg to the process in the format "-logFile C:\path\to\Rain World\output.log"
+                //We need to skip that arg and the following one (the logfile path itself) otherwise the process args just keep growing with more and more -logFile args
+                if (current_args[i] == "-logFile")
+                {
+                    i++;
+                    continue;
+                }
+
+                new_args.Add(current_args[i]);
+            }
+            psi.Arguments = String.Join(" ", new_args.ToArray());
             Process.Start(psi);
             UnityEngine.Application.Quit();
         }
