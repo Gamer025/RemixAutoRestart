@@ -4,12 +4,13 @@ using System;
 using System.Security.Permissions;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 namespace RemixAutoRestart;
 
-[BepInPlugin(MOD_ID, "Remix Auto Restarter", "1.1.0")]
+[BepInPlugin(MOD_ID, "Remix Auto Restarter", "1.2.0")]
 public class RemixAutoRestart : BaseUnityPlugin
 {
     public const string MOD_ID = "Gamer025.RemixAutoRestart";
@@ -21,7 +22,7 @@ public class RemixAutoRestart : BaseUnityPlugin
 
     private void ModdingMenu_Singal(On.Menu.ModdingMenu.orig_Singal orig, Menu.ModdingMenu self, Menu.MenuObject sender, string message)
     {
-        if (message == "RESTART")
+        if (message == "RESTART" && !Input.GetKey(KeyCode.C))
         {
             var process = Process.GetCurrentProcess();
             string fullPath = $"\"{process.MainModule.FileName}\"";
